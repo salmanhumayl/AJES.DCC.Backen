@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interface\" />
-    <Folder Include="Service\" />
+    <ProjectReference Include="..\DCC.ModelSQL\DCC.ModelSQL.csproj" />
   </ItemGroup>
 
 </Project>

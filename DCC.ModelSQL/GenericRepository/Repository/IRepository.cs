@@ -14,6 +14,9 @@ namespace DCC.ModelSQL.GenericRepository.Repository
 
         Task<int> SaveAsync();
 
+        Task<IEnumerable<T>> GetModelAsync<T>() where T : class;
+        Task<T> GetModelByIdAsync<T>(int modelId) where T : class;
+
         void ExecuteRowSql(string query);
     }
 }
