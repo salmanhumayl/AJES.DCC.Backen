@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DCC.ModelSQL.GenericRepository.Implementation
 {
     public class EntityFrameworkRepositoryReadOnly : IRepositoryReadOnly
@@ -28,6 +29,12 @@ namespace DCC.ModelSQL.GenericRepository.Implementation
             throw new NotImplementedException();
         }
 
+        public IEnumerable<T> GetEnumerable<T>() where T : class
+        {
+            var tt = _DbContext.Set<T>(); //The DbSet instance is created by calling the Set method on the DbContext object by passing the Entity Type as a parameter.
+            return tt;
+        }
+        
         public IQueryable<T> GetQueryable<T>() where T : class
         {
             var tt = _DbContext.Set<T>(); //The DbSet instance is created by calling the Set method on the DbContext object by passing the Entity Type as a parameter.

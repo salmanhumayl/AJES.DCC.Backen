@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 
 namespace DCC.API.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class OutgoingController : ControllerBase
+   
+    public class OutGoingController : ControllerBase
     {
 
         private IOutgoingService _OutgoingService;
-        public OutgoingController(IOutgoingService OutgoingService)
+        public OutGoingController(IOutgoingService OutgoingService)
         {
             _OutgoingService = OutgoingService;
         }
