@@ -20,12 +20,18 @@ namespace DCC.API.Controllers
             _MenubarService = MenubarService;
         }
 
-        [HttpGet("GetRights")]
+        [HttpGet("GetMenuBar")]
         public IActionResult GetRights()
         {
-            var result=_MenubarService.GetMenuBar();
+            var result = _MenubarService.GetMenuBar();
             return Ok(result);
         }
 
+        [HttpGet("GetRegister")]
+        public IActionResult GetRegister(int FolderID)
+        {
+            var data = _MenubarService.GetRegister(FolderID);
+            return Ok(data);
+        }
     }
 }

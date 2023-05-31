@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DCC.ModelSQL\DCC.ModelSQL.csproj" />
+    <ProjectReference Include="..\DCC.Model\DCC.Model.csproj" />
   </ItemGroup>
 
 </Project>
