@@ -19,9 +19,14 @@ namespace DCC.API.Controllers
     {
 
         private IOutgoingService _OutgoingService;
-        public OutGoingController(IOutgoingService OutgoingService)
+        private readonly IDocInfo _DocinfoService;
+        private readonly IFileUtilityService _FileServiceUtility;
+
+        public OutGoingController(IOutgoingService OutgoingService,IDocInfo DocinfoService, IFileUtilityService FileServiceUtility)
         {
             _OutgoingService = OutgoingService;
+            _DocinfoService = DocinfoService;
+            _FileServiceUtility = FileServiceUtility;
         }
 
         [HttpGet("GetOutgoing")]
@@ -49,27 +54,25 @@ namespace DCC.API.Controllers
         [HttpPost("AddDocument")]
         public async Task<IActionResult> AddDocument([FromForm] DcconGoingModel model)
         {
-             var queryable = await _blotterMasterService.GetDocInfoQuery();
+             var queryable = await _DocinfoService.GetDocInfo("8000","OUT");
+
               queryable.LastNumber += 1;
               model.Reference = "AJES/" + model.Orign + "/" + model.CorresType + "/" + model.FileNo + "/" + queryable.LastNumber;
               model.RefNo = queryable.LastNumber.ToString();
 
-            model.Reference = "Test";
-            model.RefNo = "99999";
-
-            var result = await _OutgoingService.AddOutGoing(model);
+              var result = await _OutgoingService.AddOutGoing(model);
 
 
             if (model.document != null)
             {
-              //  var res = await _OutgoingService.ProcessDocument(model.document, queryable.LastNumber.ToString());
-               // if (res != null)
-               // {
-                //    _OutgoingService.UpdateFileName(res, model.Id);
+                var res = await _OutgoingService.ProcessDocument(model.document, queryable.LastNumber.ToString());
+                if (res != null)
+                {
+                 //   _OutgoingService.UpdateFileName(res, model.Id);
 
-               // }
+                }
             }
-           // await _blotterMasterService.UpdateDocInfo(queryable);
+             await _DocinfoService.UpdateDocInfo(queryable);
             return Ok(new { message = model.Reference });
 
 

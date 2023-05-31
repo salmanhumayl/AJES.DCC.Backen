@@ -1,5 +1,6 @@
 ﻿using DCC.Model.Models;
 using DCC.ModelSQL.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace DCC.Service.Interface
 
         Task<string> AddOutGoing(DcconGoingModel model);
         Task UpdateOutGoing(DcconGoingModel model);
+
+        Task<string> ProcessDocument(IFormFile files, string FileName);
     }
 }

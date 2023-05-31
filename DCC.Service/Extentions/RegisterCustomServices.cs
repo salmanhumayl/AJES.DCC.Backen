@@ -19,6 +19,8 @@ namespace DCC.Service.Extentions
             services.AddScoped<IRepositoryReadOnly, EntityFrameworkRepositoryReadOnly>();
             services.AddScoped<IOutgoingService, OutgoingService>();
             services.AddScoped<IMenubar, MenubarService>();
+            services.AddScoped<IDocInfo, DocInfoService>();
+            services.AddScoped<IFileUtilityService, FileUtilityService>();
 
         }
     }
