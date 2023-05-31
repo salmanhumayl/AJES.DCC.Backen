@@ -1,3 +1,4 @@
+using DCC.API.Configurations;
 using DCC.ModelSQL.Models;
 using DCC.Service.Extentions;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +30,8 @@ namespace DCC.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Adding AutoMapper Profiles
+            services.AddAutoMapper(c => c.AddProfile<CustomAutoMaperConfiguration>(), typeof(Startup));
 
             services.AddDbContext<DCCContext>(
             options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
@@ -90,6 +93,7 @@ namespace DCC.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(AllowAll);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

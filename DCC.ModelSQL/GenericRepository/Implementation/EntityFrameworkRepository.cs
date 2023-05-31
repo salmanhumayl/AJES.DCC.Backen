@@ -34,12 +34,28 @@ namespace DCC.ModelSQL.GenericRepository.Implementation
 
         public void InsertModel<T>(T model) where T : class
         {
-            throw new NotImplementedException();
+            try
+            {
+                _DbContext.Set<T>().Add(model);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
-        public Task<int> SaveAsync()
+        public async Task<int> SaveAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _DbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public bool UpdateModel<T>(T model) where T : class

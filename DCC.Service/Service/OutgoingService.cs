@@ -1,4 +1,6 @@
-﻿using DCC.ModelSQL.GenericRepository.Repository;
+﻿using AutoMapper;
+using DCC.Model.Models;
+using DCC.ModelSQL.GenericRepository.Repository;
 using DCC.ModelSQL.Models;
 using DCC.Service.Interface;
 using System;
@@ -12,12 +14,25 @@ namespace DCC.Service.Service
     public class OutgoingService : IOutgoingService
     {
         private readonly IRepository _repository;
+        private IMapper _iMapper;
 
-        public OutgoingService(IRepository repository)
+        public OutgoingService(IRepository repository, IMapper iMapper)
         {
             _repository = repository;
-           
+            _iMapper = iMapper;
+
         }
+
+        public async Task<string> AddOutGoing(DcconGoingModel DcconGoingModel)
+        {
+            DcconGoing Ongoing = _iMapper.Map<DcconGoing>(DcconGoingModel);
+            Ongoing.CreatedBy = "smazhar";//_claimService.GetCurrentUserDisplayName();
+            Ongoing.CreatedDate = DateTime.Now;
+            _repository.InsertModel(Ongoing);
+            await _repository.SaveAsync();
+            return "T";
+        }
+
         public IQueryable<DcconGoing> GetOnGoingQuery()
         {
             var data = _repository.GetQueryable<DcconGoing>();
@@ -27,6 +42,11 @@ namespace DCC.Service.Service
         public async Task<DcconGoing> GetOutGoingById(int id)
         {
             return await _repository.GetModelByIdAsync<DcconGoing>(id);
+        }
+
+        public Task UpdateOutGoing(DcconGoingModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }
