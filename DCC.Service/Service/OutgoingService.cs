@@ -19,13 +19,14 @@ namespace DCC.Service.Service
     {
         private readonly IRepository _repository;
         private IMapper _iMapper;
-       
-       
-        public OutgoingService(IRepository repository, IMapper iMapper)
+        private readonly IFileUtilityService _fileUtilityService;
+      
+        public OutgoingService(IRepository repository, IMapper iMapper, IFileUtilityService fileUtilityService)
         {
             _repository = repository;
             _iMapper = iMapper;
-           
+            _fileUtilityService = fileUtilityService;
+
 
         }
 
@@ -50,15 +51,21 @@ namespace DCC.Service.Service
             return await _repository.GetModelByIdAsync<DcconGoing>(id);
         }
 
-        public Task<string> ProcessDocument(IFormFile files, string FileName)
+        public async Task<string> ProcessDocument(IFormFile files, string FileName)
         {
-           
-            return null;
+
+            var filePath = await _fileUtilityService.WriteIFormFileOnNetwork(files, FileName);
+            return filePath;
         }
 
         public Task UpdateOutGoing(DcconGoingModel model)
         {
             throw new NotImplementedException();
+        }
+
+        public void UpdateFileName(string FileName, int id)
+        {
+            _repository.ExecuteRowSql("Update DCCOnGoing Set Path='" + FileName + "' Where id =" + id);
         }
     }
 }

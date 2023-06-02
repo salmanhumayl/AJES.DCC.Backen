@@ -4,34 +4,71 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace DCC.Service.Service
 {
     public class FileUtilityService : IFileUtilityService
     {
         private IConfiguration _configuration;
-        private IWebHostEnvironment _hostEnvironment;
-        public string GetFileNameWithoutExtension(string path)
+        // private IWebHostEnvironment _hostEnvironment;
+
+
+        public FileUtilityService(IConfiguration configuration)
         {
-            throw new NotImplementedException();
+            _configuration = configuration;
         }
+
 
         public (IList<EmpHistory>, string response) ReadBrokerMasterFromExcel(string filePath)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> WriteIFormFileOnNetwork(IFormFile file, string FileName)
+        public async Task<string> WriteIFormFileOnNetwork(IFormFile file, string fileName)
         {
-            throw new NotImplementedException();
+          string path = _configuration["ShareFolderPath:SupportOfficeOUT"];
+
+
+            if (file.Length > 0)
+            {
+                string fileExtension = GetFileExtenison(file.FileName);
+                string filePath = Path.Combine(path, fileName + "." + fileExtension);
+                try
+                {
+                    using (Stream stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+                return fileName + "." + fileExtension;
+               
+            }
+            return null;
         }
 
         public Task<string> WriteIFormFileToDisk(IFormFile file)
         {
             throw new NotImplementedException();
         }
+
+
+        public string GetFileExtenison(string fileName)
+        {
+            var fileExtension = fileName.Split('.').LastOrDefault();
+            return fileExtension;
+        }
+
+        public string GetFileNameWithoutExtension(string path)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

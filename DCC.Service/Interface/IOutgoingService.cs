@@ -18,5 +18,8 @@ namespace DCC.Service.Interface
         Task UpdateOutGoing(DcconGoingModel model);
 
         Task<string> ProcessDocument(IFormFile files, string FileName);
+
+        void UpdateFileName(string FileName, int ID);
+
     }
 }

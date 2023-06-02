@@ -68,7 +68,7 @@ namespace DCC.API.Controllers
                 var res = await _OutgoingService.ProcessDocument(model.document, queryable.LastNumber.ToString());
                 if (res != null)
                 {
-                 //   _OutgoingService.UpdateFileName(res, model.Id);
+                    _OutgoingService.UpdateFileName(res, model.Id);
 
                 }
             }
