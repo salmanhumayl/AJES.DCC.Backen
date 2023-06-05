@@ -1,11 +1,12 @@
-﻿using System;
+﻿using DCC.Common.Service;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace DCC.ModelSQL.Models
 {
-    public partial class DocInfo
+    public class DocInfo : IEntityIdentifier
     {
         public int Id { get; set; }
         public string Project { get; set; }

@@ -60,22 +60,43 @@ namespace DCC.API.Controllers
               model.Reference = "AJES/" + model.Orign + "/" + model.CorresType + "/" + model.FileNo + "/" + queryable.LastNumber;
               model.RefNo = queryable.LastNumber.ToString();
 
-              var result = await _OutgoingService.AddOutGoing(model);
+              int _id = await _OutgoingService.AddOutGoing(model);
+            if (_id > 0)
+            {
+                if (model.document != null)
+                {
+                    var res = await _OutgoingService.ProcessDocument(model.document, queryable.LastNumber.ToString());
+                    if (res != null)
+                    {
+                        _OutgoingService.UpdateFileName(res, _id);
+                    }
+                }
+                await _DocinfoService.UpdateDocInfo(queryable);
+                return Ok(new { message = model.Reference });
+            }
+             
+            else
+            {
+                return BadRequest(new { message = "Error while saving record" });
+            }
+        }
 
-
+        [HttpPut("UpdateDocument")]
+        public async Task<IActionResult> OutUpdateDocument([FromForm] DcconGoingModel model)
+        {
             if (model.document != null)
             {
-                var res = await _OutgoingService.ProcessDocument(model.document, queryable.LastNumber.ToString());
+                var res = await _OutgoingService.ProcessDocument(model.document, model.RefNo);
                 if (res != null)
                 {
                     _OutgoingService.UpdateFileName(res, model.Id);
-
+                     model.Path = res;
                 }
             }
-             await _DocinfoService.UpdateDocInfo(queryable);
-            return Ok(new { message = model.Reference });
-
-
+            await _OutgoingService.UpdateOutGoing(model);
+            return Ok(new { message = "Updated Successfully" });
         }
+
+
     }
 }

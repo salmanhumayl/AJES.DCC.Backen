@@ -30,14 +30,14 @@ namespace DCC.Service.Service
 
         }
 
-        public async Task<string> AddOutGoing(DcconGoingModel DcconGoingModel)
+        public async Task<int> AddOutGoing(DcconGoingModel DcconGoingModel)
         {
             DcconGoing Ongoing = _iMapper.Map<DcconGoing>(DcconGoingModel);
             Ongoing.CreatedBy = "smazhar";
             Ongoing.CreatedDate = DateTime.Now;
             _repository.InsertModel(Ongoing);
             await _repository.SaveAsync();
-            return "T";
+            return Ongoing.Id;
         }
 
         public IQueryable<DcconGoing> GetOnGoingQuery()
@@ -58,9 +58,13 @@ namespace DCC.Service.Service
             return filePath;
         }
 
-        public Task UpdateOutGoing(DcconGoingModel model)
+        public async Task UpdateOutGoing(DcconGoingModel DcconGoingModel)
         {
-            throw new NotImplementedException();
+            DcconGoing Ongoing = _iMapper.Map<DcconGoing>(DcconGoingModel);
+            Ongoing.UpdatedBy = "smazhar";
+            Ongoing.UpdatedDate = DateTime.Now;
+            _repository.UpdateModel(Ongoing);
+            await _repository.SaveAsync();
         }
 
         public void UpdateFileName(string FileName, int id)

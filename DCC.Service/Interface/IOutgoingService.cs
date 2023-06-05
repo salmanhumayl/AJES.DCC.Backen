@@ -14,7 +14,7 @@ namespace DCC.Service.Interface
         IQueryable<DcconGoing> GetOnGoingQuery();
         Task<DcconGoing> GetOutGoingById(int id);
 
-        Task<string> AddOutGoing(DcconGoingModel model);
+        Task<int> AddOutGoing(DcconGoingModel model);
         Task UpdateOutGoing(DcconGoingModel model);
 
         Task<string> ProcessDocument(IFormFile files, string FileName);

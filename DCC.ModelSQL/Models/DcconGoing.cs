@@ -1,11 +1,12 @@
-﻿using System;
+﻿using DCC.Common.Service;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace DCC.ModelSQL.Models
 {
-    public partial class DcconGoing
+    public class DcconGoing : IEntityIdentifier
     {
         public int Id { get; set; }
         public DateTime? Date { get; set; }

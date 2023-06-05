@@ -1,9 +1,11 @@
-﻿using DCC.ModelSQL.GenericRepository.Repository;
+﻿using DCC.Common.Service;
+using DCC.ModelSQL.GenericRepository.Repository;
 using DCC.ModelSQL.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -60,7 +62,21 @@ namespace DCC.ModelSQL.GenericRepository.Implementation
 
         public bool UpdateModel<T>(T model) where T : class
         {
-            throw new NotImplementedException();
+            var id = (model as IEntityIdentifier).Id;
+            var oldEntity = _DbContext.Find<T>(id);
+
+            if (oldEntity == null)
+                return false; // Update not possible, The entity needs to be updated does not exist.
+            var props = model.GetType().GetProperties();
+            foreach (PropertyInfo info in props)
+            {
+                if (info.Name != "Id" && info.Name != "CreatedDate" && info.Name != "CreatedBy")
+                {
+                    info.SetValue(oldEntity, info.GetValue(model));
+                }
+            }
+
+            return true;
         }
 
         public void ExecuteRowSql(string query)

@@ -28,8 +28,16 @@ namespace DCC.Service.Service
 
         public async Task UpdateDocInfo(DocInfo model)
         {
-            _repository.UpdateModel(model);
-            await _repository.SaveAsync();
+            try
+            {
+                _repository.UpdateModel(model);
+                await _repository.SaveAsync();
+            }
+
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

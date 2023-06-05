@@ -13,4 +13,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DCC.Common\DCC.Common.csproj" />
+  </ItemGroup>
+
 </Project>
