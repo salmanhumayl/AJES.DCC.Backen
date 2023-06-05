@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace DCC.ModelSQL.Models
+namespace DCC.Model.Models
 {
-    public  class DccinComing
+    public class DccinComingModel
     {
         public int Id { get; set; }
         public string Path { get; set; }
@@ -24,5 +26,7 @@ namespace DCC.ModelSQL.Models
         public string UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string RefNo { get; set; }
+
+        public IFormFile document { get; set; }
     }
 }

@@ -28,7 +28,6 @@ namespace DCC.API.Controllers
             _DocinfoService = DocinfoService;
             _FileServiceUtility = FileServiceUtility;
         }
-
         [HttpGet("GetOutgoing")]
         public async Task<LoadResult> GetOutgoing(DataSourceLoadOptionsExtension loadOptions)
         {
