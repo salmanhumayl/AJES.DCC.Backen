@@ -291,6 +291,41 @@ namespace DCC.ModelSQL.Models
                 entity.Property(e => e.Remarks).HasMaxLength(255);
             });
 
+            modelBuilder.Entity<DccUser>(entity =>
+            {
+                entity.ToTable("DCC-Users");
+
+                entity.HasIndex(e => e.UserName, "IX_DCC-Users")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CreatedOn)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('A')")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 

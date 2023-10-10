@@ -1,7 +1,9 @@
+using DCC.ModelSQL.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,21 +24,53 @@ namespace IDServer
         }
 
         public IConfiguration Configuration { get; }
+        private string AllowAll = "AllowAll";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
             services.AddControllers();
+
+            services.AddDbContext<DCCContext>(
+             options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+
+
+            services.AddIdentityServer()
+           .AddDeveloperSigningCredential()
+           .AddInMemoryIdentityResources(IdentityConfiguration.IdentityResources)
+           .AddInMemoryApiResources(IdentityConfiguration.ApiResources)
+           .AddInMemoryApiScopes(IdentityConfiguration.ApiScopes)
+           .AddInMemoryClients(IdentityConfiguration.Clients)
+           .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+           .AddProfileService<ProfileService>();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "IDServer", Version = "v1" });
             });
+
+
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowAll,
+                   builder =>
+                   {
+                       builder.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+                   });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(AllowAll);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

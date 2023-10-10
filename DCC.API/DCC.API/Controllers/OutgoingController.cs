@@ -92,6 +92,7 @@ namespace DCC.API.Controllers
                      model.Path = res;
                 }
             }
+            model.Reference = "AJES/" + model.Orign + "/" + model.CorresType + "/" + model.FileNo + "/" + model.RefNo;
             await _OutgoingService.UpdateOutGoing(model);
             return Ok(new { message = "Updated Successfully" });
         }
