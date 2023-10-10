@@ -1,4 +1,5 @@
-﻿using IdentityServer4.Models;
+﻿using DCC.Service.Interface;
+using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -10,9 +11,9 @@ namespace IDServer
 {
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
-        private UserManager<IdentityUser> userManager;
+        private IuserManager userManager;
 
-        public ResourceOwnerPasswordValidator(UserManager<IdentityUser> userManager)
+        public ResourceOwnerPasswordValidator(IuserManager userManager)
         {
             this.userManager = userManager;
         }

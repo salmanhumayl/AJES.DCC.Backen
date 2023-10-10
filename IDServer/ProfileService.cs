@@ -1,4 +1,5 @@
-﻿using IdentityServer4.Models;
+﻿using DCC.Service.Interface;
+using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -6,29 +7,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using VCT.Core.Entities;
-using VCT.Service.Interface;
+
 
 namespace IDServer
 {
     public class ProfileService : IProfileService
     {
-        private UserManager<IdentityUser> _userManager;
-        private IAuthenticate _authenticaterepository;
-        public ProfileService(UserManager<IdentityUser> userManager, IAuthenticate authenticaterepository)
+        private IuserManager _userManager;
+        public ProfileService(IuserManager userManager)
         {
-            _userManager = userManager;
-            _authenticaterepository = authenticaterepository;
+            this._userManager = userManager;
+         
         }
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-          
+           
             var user = await _userManager.FindByNameAsync(context.Subject.Claims.Where(x => x.Type.Equals("sub")).FirstOrDefault().Value);
            
 
             var claims = new List<Claim>
             {
-                 new Claim("Id", user.Id),
+                 new Claim("Id", user.Id.ToString()),
                  new Claim("UserName", user.UserName),
                  new Claim("Name", user.Name),
                 

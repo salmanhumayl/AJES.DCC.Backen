@@ -1,4 +1,6 @@
 using DCC.ModelSQL.Models;
+using DCC.Service.Interface;
+using DCC.Service.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +37,7 @@ namespace IDServer
             services.AddDbContext<DCCContext>(
              options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
+            services.AddScoped<IuserManager, userManagerService>();
 
             services.AddIdentityServer()
            .AddDeveloperSigningCredential()

@@ -18,6 +18,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DCC.ModelSQL\DCC.ModelSQL.csproj" />
+    <ProjectReference Include="..\DCC.Service\DCC.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
