@@ -1,6 +1,7 @@
 using DCC.API.Configurations;
 using DCC.ModelSQL.Models;
 using DCC.Service.Extentions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -88,6 +89,24 @@ namespace DCC.API
                       .AllowAnyHeader();
                    });
             });
+
+
+
+            ////Adding Authentication
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+            //Adding Jwt Bearer
+            .AddJwtBearer("Bearer", opt =>
+            {
+                opt.RequireHttpsMetadata = false;
+                opt.Authority = Configuration["Identity:Authority"];
+                opt.Audience = Configuration["Identity:ApiName"];
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,7 +123,7 @@ namespace DCC.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

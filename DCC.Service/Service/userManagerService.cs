@@ -10,14 +10,20 @@ namespace DCC.Service.Service
 {
     public class userManagerService : IuserManager
     {
-        public Task<bool> CheckPasswordAsync(DccUser user, string Password)
+        public async Task<bool> CheckPasswordAsync(DccUser user, string Password)
         {
-            throw new NotImplementedException();
+            return true;
+
         }
 
-        public Task<DccUser> FindByNameAsync(string UserNAme)
+        public async Task<DccUser> FindByNameAsync(string UserNAme)
         {
-            throw new NotImplementedException();
+            DccUser user = new DccUser();
+            user.Id = 122222;
+            user.Name = "Salman";
+            user.UserName = "abc";
+
+            return user;
         }
     }
 }

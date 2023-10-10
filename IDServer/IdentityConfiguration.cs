@@ -24,7 +24,7 @@ namespace IDServer
         public static IEnumerable<ApiScope> ApiScopes =>
     new ApiScope[]
     {
-        new ApiScope("vct-api", "VCT Api"),
+        new ApiScope("dcc-api", "dcc Api"),
        
     };
 
@@ -32,9 +32,9 @@ namespace IDServer
         public static IEnumerable<ApiResource> ApiResources =>
     new ApiResource[]
     {
-         new ApiResource("vct-api", "VCT Api")
+         new ApiResource("dcc-api", "dcc Api")
                 {
-                    Scopes = { "vct-api" }
+                    Scopes = { "dcc-api" }
                 }
     };
 
@@ -44,12 +44,12 @@ namespace IDServer
         new Client
         {
 
-            ClientName = "DCC",
-            ClientId = "DCC.Client",
+            ClientName = "dcc",
+            ClientId = "dcc.client",
              RequireClientSecret = false,
             AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
             ClientSecrets = { new Secret("secret".Sha256()) },
-            AllowedScopes = { "DCC-api" },
+            AllowedScopes = { "dcc-api" },
            // AllowOfflineAccess = false,
            // RefreshTokenExpiration = TokenExpiration.Sliding,
            // SlidingRefreshTokenLifetime = 3600,

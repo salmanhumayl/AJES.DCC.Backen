@@ -81,10 +81,12 @@ namespace IDServer
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "IDServer v1"));
             }
 
-            app.UseHttpsRedirection();
+        
 
             app.UseRouting();
 
+            app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

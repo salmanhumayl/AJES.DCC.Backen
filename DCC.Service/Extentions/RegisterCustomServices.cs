@@ -22,6 +22,8 @@ namespace DCC.Service.Extentions
             services.AddScoped<IMenubar, MenubarService>();
             services.AddScoped<IDocInfo, DocInfoService>();
             services.AddScoped<IFileUtilityService, FileUtilityService>();
+            services.AddScoped<ITokenService, TokenService>();
+
 
         }
     }
