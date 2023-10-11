@@ -32,7 +32,7 @@ namespace DCC.Service.Service
             var pfolder = _repository.GetQueryable<DccProjectFolder>();
             var folders = _repository.GetQueryable<DccFolder>();
             var folderdetail = _repository.GetQueryable<DccFolderDetail>();
-
+            
 
             var result = (from pp in project
                           join fdd in pfolder on pp.Code equals fdd.ProjectCode

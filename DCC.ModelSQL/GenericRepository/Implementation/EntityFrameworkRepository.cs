@@ -1,6 +1,7 @@
 ﻿using DCC.Common.Service;
 using DCC.ModelSQL.GenericRepository.Repository;
 using DCC.ModelSQL.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -24,13 +25,14 @@ namespace DCC.ModelSQL.GenericRepository.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<T>> GetModelAsync<T>() where T : class
+        public async Task<IEnumerable<T>> GetModelAsync<T>() where T : class
         {
-            throw new NotImplementedException();
+            return await _DbContext.Set<T>().ToListAsync();
         }
 
         public async Task<T> GetModelByIdAsync<T>(int modelId) where T : class
         {
+           
             return await _DbContext.Set<T>().FindAsync(modelId);
         }
 

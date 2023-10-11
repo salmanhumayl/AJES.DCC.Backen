@@ -1,4 +1,5 @@
-﻿using DCC.Service.Interface;
+﻿using DCC.ModelSQL.Models;
+using DCC.Service.Interface;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Identity;
@@ -19,10 +20,11 @@ namespace IDServer
         }
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var user = userManager.FindByNameAsync(context.UserName).Result;
+            DccUser user = userManager.FindByNameAsync(context.UserName);
+           
             if (user != null)
             {
-                if (userManager.CheckPasswordAsync(user, context.Password).Result)
+                if (userManager.CheckPasswordAsync(user, context.Password))
                 {
                     context.Result = new GrantValidationResult(
                         subject: user.UserName,

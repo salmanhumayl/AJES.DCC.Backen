@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DCC.API.Controllers
 {
-    [Authorize]
+   // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
    

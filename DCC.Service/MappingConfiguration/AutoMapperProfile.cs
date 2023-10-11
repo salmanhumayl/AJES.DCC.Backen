@@ -14,6 +14,7 @@ namespace DCC.Service.MappingConfiguration
         public AutoMapperProfile()
         {
             CreateMap<DcconGoing, DcconGoingModel>().ReverseMap();
+            
         }
     }
 }

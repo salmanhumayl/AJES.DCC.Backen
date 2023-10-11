@@ -21,8 +21,10 @@ namespace IDServer
         }
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-           
-            var user = await _userManager.FindByNameAsync(context.Subject.Claims.Where(x => x.Type.Equals("sub")).FirstOrDefault().Value);
+
+            var contextusername = context.Subject.Claims.Where(x => x.Type.Equals("sub")).FirstOrDefault().Value;
+
+            var user = _userManager.FindByNameAsync(contextusername);
            
 
             var claims = new List<Claim>
@@ -38,7 +40,8 @@ namespace IDServer
 
         public async Task IsActiveAsync(IsActiveContext context)
         {
-            var user = await _userManager.FindByNameAsync(context.Subject.Claims.Where(x => x.Type.Equals("sub")).FirstOrDefault().Value);
+            var contextusername = context.Subject.Claims.Where(x => x.Type.Equals("sub")).FirstOrDefault().Value;
+            var user = _userManager.FindByNameAsync(contextusername);
             context.IsActive = (user == null) ? false : true;
         }
     }

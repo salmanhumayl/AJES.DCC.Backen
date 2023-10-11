@@ -1,3 +1,6 @@
+
+using DCC.ModelSQL.GenericRepository.Implementation;
+using DCC.ModelSQL.GenericRepository.Repository;
 using DCC.ModelSQL.Models;
 using DCC.Service.Interface;
 using DCC.Service.Service;
@@ -31,12 +34,15 @@ namespace IDServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+          
 
             services.AddControllers();
 
             services.AddDbContext<DCCContext>(
              options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
+            services.AddScoped<IRepository, EntityFrameworkRepository>();
+            services.AddScoped<IRepositoryReadOnly, EntityFrameworkRepositoryReadOnly>();
             services.AddScoped<IuserManager, userManagerService>();
 
             services.AddIdentityServer()
