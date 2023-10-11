@@ -2,6 +2,7 @@
 using DCC.ModelSQL.GenericRepository.Repository;
 using DCC.Service.Interface;
 using DCC.Service.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,9 @@ namespace DCC.Service.Extentions
             services.AddScoped<IDocInfo, DocInfoService>();
             services.AddScoped<IFileUtilityService, FileUtilityService>();
             services.AddScoped<ITokenService, TokenService>();
-
-
+            services.AddHttpContextAccessor();
+            services.AddScoped<IClaimService, ClaimService>();
+           
         }
     }
 }

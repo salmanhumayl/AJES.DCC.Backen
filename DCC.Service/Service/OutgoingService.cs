@@ -20,12 +20,14 @@ namespace DCC.Service.Service
         private readonly IRepository _repository;
         private IMapper _iMapper;
         private readonly IFileUtilityService _fileUtilityService;
-      
-        public OutgoingService(IRepository repository, IMapper iMapper, IFileUtilityService fileUtilityService)
+        private readonly IClaimService _claimservice;
+
+        public OutgoingService(IRepository repository, IMapper iMapper, IFileUtilityService fileUtilityService,IClaimService claimservice)
         {
             _repository = repository;
             _iMapper = iMapper;
             _fileUtilityService = fileUtilityService;
+            _claimservice = claimservice;
 
 
         }
@@ -33,7 +35,7 @@ namespace DCC.Service.Service
         public async Task<int> AddOutGoing(DcconGoingModel DcconGoingModel)
         {
             DcconGoing Ongoing = _iMapper.Map<DcconGoing>(DcconGoingModel);
-            Ongoing.CreatedBy = "smazhar";
+           Ongoing.CreatedBy = _claimservice.GetCurrentDisplayName();
             Ongoing.CreatedDate = DateTime.Now;
             _repository.InsertModel(Ongoing);
             await _repository.SaveAsync();
@@ -61,7 +63,7 @@ namespace DCC.Service.Service
         public async Task UpdateOutGoing(DcconGoingModel DcconGoingModel)
         {
             DcconGoing Ongoing = _iMapper.Map<DcconGoing>(DcconGoingModel);
-            Ongoing.UpdatedBy = "smazhar";
+            Ongoing.UpdatedBy = _claimservice.GetCurrentDisplayName();
             Ongoing.UpdatedDate = DateTime.Now;
             _repository.UpdateModel(Ongoing);
             await _repository.SaveAsync();

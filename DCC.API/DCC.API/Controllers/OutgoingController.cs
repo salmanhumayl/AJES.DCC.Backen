@@ -4,6 +4,7 @@ using DCC.ModelSQL.Models;
 using DCC.Service.Interface;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace DCC.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
    
