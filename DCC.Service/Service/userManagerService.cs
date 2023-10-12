@@ -34,21 +34,33 @@ namespace DCC.Service.Service
         public DccUser FindByNameAsync(string UserName)
         {
 
-            var IQusers = _repository.GetQueryable<DccUser>();
-            var users = IQusers.Where(a => a.UserName == UserName);
-          
+              var dccUsers= _repository.GetQueryable<DccUser>().ToList().Where(a => a.UserName == UserName).SingleOrDefault();
 
-            DccUser obj = new DccUser();
+            List<DccUser> IQusers = _repository.GetQueryable<DccUser>().ToList();
+             var users = IQusers.Where(a => a.UserName == UserName).SingleOrDefault();
 
-            foreach (var item in users.ToList())
-            {
-                obj.Id = item.Id;
-                obj.Name = item.Name;
-                obj.UserName = item.UserName;
-               
-            }
+            // var IQusers = _repository.GetQueryable<DccUser>();
 
-                return obj;
+            //  var users = IQusers.Where(a => a.UserName == UserName).Select(x => new users { Id = x.Id, Name = x.Name, UserName = x.UserName });
+            return dccUsers;
+        }
+
+        public List<string> Test(string UserName)
+        {
+
+            var IQusers = _repository.GetQueryable<DccUser>().ToList();
+
+            var users = IQusers.Where(a => a.UserName == UserName).Select(a=>a.UserName).ToList();
+            return users;
+            
         }
     }
+
+    public class users 
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string UserName { get; set; }
+    }
 }
+

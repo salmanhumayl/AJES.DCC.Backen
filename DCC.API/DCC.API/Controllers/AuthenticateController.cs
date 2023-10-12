@@ -1,6 +1,8 @@
-﻿using DCC.Model.Models;
+﻿using DCC.API.Model;
+using DCC.Model.Models;
 using DCC.ModelSQL.Models;
 using DCC.Service.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,11 +16,12 @@ namespace DCC.API.Controllers
     public class AuthenticateController : Controller
     {
         private ITokenService _ITokenService;
+        private IuserManager _userManager;
 
-        public AuthenticateController(ITokenService tokenservice)
+        public AuthenticateController(ITokenService tokenservice, IuserManager userManager)
         {
             _ITokenService = tokenservice;
-            
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -28,16 +31,21 @@ namespace DCC.API.Controllers
 
 
             var resp = await _ITokenService.GetToken(model);
-
-            return Ok(GetTokenResponse(resp.AccessToken, DateTimeOffset.UtcNow.AddSeconds(resp.ExpiresIn)));
+            if (resp.HttpStatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var users=_userManager.FindByNameAsync(model.UserName);
+                return Ok(GetTokenResponse(resp.AccessToken, DateTimeOffset.UtcNow.AddSeconds(resp.ExpiresIn),users.Name));
+            }
+            return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Sorry! We could not verify your email or password. Please try again." });
         }
 
-        private DCCTokenResponse GetTokenResponse(string token, DateTimeOffset validUpto)
+        private DCCTokenResponse GetTokenResponse(string token, DateTimeOffset validUpto,string Name)
         {
             return new DCCTokenResponse()
             {
                 token = token,
-                expiration = validUpto.LocalDateTime
+                expiration = validUpto.LocalDateTime,
+                Name=Name
             };
         }
 

@@ -19,7 +19,7 @@ namespace IDServer
             this._userManager = userManager;
          
         }
-        public async Task GetProfileDataAsync(ProfileDataRequestContext context)
+        public  async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
 
             var contextusername = context.Subject.Claims.Where(x => x.Type.Equals("sub")).FirstOrDefault().Value;

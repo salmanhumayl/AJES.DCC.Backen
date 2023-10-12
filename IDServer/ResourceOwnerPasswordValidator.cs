@@ -20,6 +20,7 @@ namespace IDServer
         }
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
+          //  var dd=userManager.Test(context.UserName);
             DccUser user = userManager.FindByNameAsync(context.UserName);
            
             if (user != null)

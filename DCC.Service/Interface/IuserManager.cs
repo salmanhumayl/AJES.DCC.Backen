@@ -11,6 +11,6 @@ namespace DCC.Service.Interface
     {
         DccUser FindByNameAsync(string UserNAme);
         bool CheckPasswordAsync(DccUser user, string Password);
-
+        List<string> Test(string UserName);
     }
 }

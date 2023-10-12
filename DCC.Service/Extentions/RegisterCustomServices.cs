@@ -26,7 +26,8 @@ namespace DCC.Service.Extentions
             services.AddScoped<ITokenService, TokenService>();
             services.AddHttpContextAccessor();
             services.AddScoped<IClaimService, ClaimService>();
-           
+            services.AddScoped<IuserManager, userManagerService>();
+
         }
     }
 }
