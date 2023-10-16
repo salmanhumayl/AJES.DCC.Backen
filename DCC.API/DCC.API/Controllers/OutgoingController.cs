@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DCC.API.Controllers
 {
-   // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
    
@@ -78,7 +78,8 @@ namespace DCC.API.Controllers
              
             else
             {
-                return BadRequest(new { message = "Error while saving record" });
+                // return BadRequest(new { message = "Error while saving record" });
+                return Ok(new { message = "Error while saving record" });
             }
         }
 

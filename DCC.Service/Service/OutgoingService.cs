@@ -28,14 +28,12 @@ namespace DCC.Service.Service
             _iMapper = iMapper;
             _fileUtilityService = fileUtilityService;
             _claimservice = claimservice;
-
-
         }
 
         public async Task<int> AddOutGoing(DcconGoingModel DcconGoingModel)
         {
             DcconGoing Ongoing = _iMapper.Map<DcconGoing>(DcconGoingModel);
-           Ongoing.CreatedBy = _claimservice.GetCurrentDisplayName();
+            Ongoing.CreatedBy = _claimservice.GetCurrentDisplayName();
             Ongoing.CreatedDate = DateTime.Now;
             _repository.InsertModel(Ongoing);
             await _repository.SaveAsync();

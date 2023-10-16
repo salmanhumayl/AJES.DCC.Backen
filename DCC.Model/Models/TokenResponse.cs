@@ -11,6 +11,7 @@ namespace DCC.Model.Models
         public string token { get; set; }
         public DateTime expiration { get; set; }
         public string Name  { get; set; }
+        public string Status { get; set; }
 
     }
 }

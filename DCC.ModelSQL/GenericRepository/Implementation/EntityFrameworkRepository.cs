@@ -81,9 +81,10 @@ namespace DCC.ModelSQL.GenericRepository.Implementation
             return true;
         }
 
+
         public void ExecuteRowSql(string query)
         {
-            throw new NotImplementedException();
+            _DbContext.Database.ExecuteSqlRaw(query);
         }
     }
 }

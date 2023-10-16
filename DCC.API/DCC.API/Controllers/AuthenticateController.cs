@@ -36,13 +36,15 @@ namespace DCC.API.Controllers
                 var users=_userManager.FindByNameAsync(model.UserName);
                 return Ok(GetTokenResponse(resp.AccessToken, DateTimeOffset.UtcNow.AddSeconds(resp.ExpiresIn),users.Name));
             }
-            return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Sorry! We could not verify your email or password. Please try again." });
+            //    return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Sorry! We could not verify your email or password. Please try again." });
+            return Ok(new Response { Status = "Error", Message = "Sorry! We could not verify your UserNane or password. Please try again." });
         }
 
         private DCCTokenResponse GetTokenResponse(string token, DateTimeOffset validUpto,string Name)
         {
             return new DCCTokenResponse()
             {
+                Status = "ok",
                 token = token,
                 expiration = validUpto.LocalDateTime,
                 Name=Name
