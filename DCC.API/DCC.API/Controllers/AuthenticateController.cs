@@ -31,13 +31,15 @@ namespace DCC.API.Controllers
 
 
             var resp = await _ITokenService.GetToken(model);
+            return Ok(new Response { Status= resp.ErrorDescription,AccessToken=resp.AccessToken, Message = "Sorry! We could not verify your UserNane or password. Please try again." });
+
             if (resp.HttpStatusCode == System.Net.HttpStatusCode.OK)
             {
                 var users=_userManager.FindByNameAsync(model.UserName);
-                return Ok(GetTokenResponse(resp.AccessToken, DateTimeOffset.UtcNow.AddSeconds(resp.ExpiresIn),users.Name));
+             //   return Ok(GetTokenResponse(resp.AccessToken, DateTimeOffset.UtcNow.AddSeconds(resp.ExpiresIn),users.Name));
             }
             //    return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Sorry! We could not verify your email or password. Please try again." });
-            return Ok(new Response { Status = "Error", Message = "Sorry! We could not verify your UserNane or password. Please try again." });
+         //   return Ok(new Response { Status = resp.HttpStatusCode.ToString(), Message = "Sorry! We could not verify your UserNane or password. Please try again."});
         }
 
         private DCCTokenResponse GetTokenResponse(string token, DateTimeOffset validUpto,string Name)

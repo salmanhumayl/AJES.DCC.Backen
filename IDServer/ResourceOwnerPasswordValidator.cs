@@ -21,11 +21,11 @@ namespace IDServer
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
           //  var dd=userManager.Test(context.UserName);
-            DccUser user = userManager.FindByNameAsync(context.UserName);
+            DccUser user = userManager.FindByNameAsync(context.UserName).Result;
            
             if (user != null)
             {
-                if (userManager.CheckPasswordAsync(user, context.Password))
+                if (userManager.CheckPasswordAsync(user, context.Password).Result)
                 {
                     context.Result = new GrantValidationResult(
                         subject: user.UserName,

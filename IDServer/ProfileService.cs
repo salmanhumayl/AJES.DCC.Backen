@@ -24,7 +24,7 @@ namespace IDServer
 
             var contextusername = context.Subject.Claims.Where(x => x.Type.Equals("sub")).FirstOrDefault().Value;
 
-            var user = _userManager.FindByNameAsync(contextusername);
+            var user =await  _userManager.FindByNameAsync(contextusername);
            
 
             var claims = new List<Claim>

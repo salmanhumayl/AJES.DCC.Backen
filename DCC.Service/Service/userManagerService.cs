@@ -21,28 +21,28 @@ namespace DCC.Service.Service
           
 
         }
-        public bool CheckPasswordAsync(DccUser user, string Password)
+        public Task<bool> CheckPasswordAsync(DccUser user, string Password)
         {
-            var users = _repository.GetQueryable<DccUser>().Where(a => a.UserName == user.UserName && a.Password==Password);
-            if (user != null)
+            var users = _repository.GetQueryable<DccUser>().ToList().Where(a => a.UserName == user.UserName && a.Password == Password).SingleOrDefault();
+            if (users != null)
             {
-                return true;
+                return Task.FromResult(true);
             }
-            return false ; 
+            return Task.FromResult(false); 
         }
 
-        public DccUser FindByNameAsync(string UserName)
+        public Task<DccUser> FindByNameAsync(string UserName)
         {
 
-              var dccUsers= _repository.GetQueryable<DccUser>().ToList().Where(a => a.UserName == UserName).SingleOrDefault();
+           var dccUsers=   _repository.GetQueryable<DccUser>().ToList().Where(a => a.UserName == UserName).SingleOrDefault();
 
-            List<DccUser> IQusers = _repository.GetQueryable<DccUser>().ToList();
-             var users = IQusers.Where(a => a.UserName == UserName).SingleOrDefault();
+          //  List<DccUser> IQusers = _repository.GetQueryable<DccUser>().F;
+            // var users =  IQusers.Where(a => a.UserName == UserName).SingleOrDefault();
 
             // var IQusers = _repository.GetQueryable<DccUser>();
 
             //  var users = IQusers.Where(a => a.UserName == UserName).Select(x => new users { Id = x.Id, Name = x.Name, UserName = x.UserName });
-            return dccUsers;
+            return  Task.FromResult(dccUsers);
         }
 
         public List<string> Test(string UserName)

@@ -90,7 +90,8 @@ namespace DCC.API
                    });
             });
 
-
+             
+           
 
             ////Adding Authentication
             services.AddAuthentication(options =>
@@ -103,9 +104,10 @@ namespace DCC.API
             //Adding Jwt Bearer
             .AddJwtBearer("Bearer", opt =>
             {
-                opt.RequireHttpsMetadata = false;
                 opt.Authority = Configuration["Identity:Authority"];
                 opt.Audience = Configuration["Identity:ApiName"];
+                opt.RequireHttpsMetadata = false;
+                
             });
         }
 

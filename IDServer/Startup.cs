@@ -29,7 +29,7 @@ namespace IDServer
         }
 
         public IConfiguration Configuration { get; }
-        private string AllowAll = "AllowAll";
+        private string AllowAll = "AllowAllDCCContent";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -57,7 +57,7 @@ namespace IDServer
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "IDServer", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DCCServer", Version = "v1" });
             });
 
 
@@ -80,14 +80,16 @@ namespace IDServer
         {
             app.UseCors(AllowAll);
 
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "IDServer v1"));
+                // app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DCCServer v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "DCCServer v1"));
             }
 
-        
+          
+
 
             app.UseRouting();
 

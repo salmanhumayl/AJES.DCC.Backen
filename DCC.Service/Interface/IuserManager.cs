@@ -9,8 +9,8 @@ namespace DCC.Service.Interface
 {
     public interface IuserManager
     {
-        DccUser FindByNameAsync(string UserNAme);
-        bool CheckPasswordAsync(DccUser user, string Password);
+        Task<DccUser> FindByNameAsync(string UserNAme);
+        Task<bool> CheckPasswordAsync(DccUser user, string Password);
         List<string> Test(string UserName);
     }
 }
