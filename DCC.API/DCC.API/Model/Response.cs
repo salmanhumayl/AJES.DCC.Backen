@@ -10,8 +10,8 @@ namespace DCC.API.Model
         public string Status { get; set; }
         public string Message { get; set; }
         public string AccessToken { get; set; }
+        public string gg { get; set; }
 
-     
 
     }
 }

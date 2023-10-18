@@ -4,6 +4,7 @@ using DCC.ModelSQL.Models;
 using DCC.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,15 +32,16 @@ namespace DCC.API.Controllers
 
 
             var resp = await _ITokenService.GetToken(model);
-            return Ok(new Response { Status= resp.ErrorDescription,AccessToken=resp.AccessToken, Message = "Sorry! We could not verify your UserNane or password. Please try again." });
+           
+          //  return Ok(new Response { Status= resp.ErrorDescription,AccessToken=resp.AccessToken,gg= JsonConvert.SerializeObject( resp), Message = "Sorry! We could not verify your UserNane or password. Please try again." });
 
             if (resp.HttpStatusCode == System.Net.HttpStatusCode.OK)
             {
-                var users=_userManager.FindByNameAsync(model.UserName);
-             //   return Ok(GetTokenResponse(resp.AccessToken, DateTimeOffset.UtcNow.AddSeconds(resp.ExpiresIn),users.Name));
+                var users=await _userManager.FindByNameAsync(model.UserName);
+                return Ok(GetTokenResponse(resp.AccessToken, DateTimeOffset.UtcNow.AddSeconds(resp.ExpiresIn),users.Name));
             }
             //    return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Sorry! We could not verify your email or password. Please try again." });
-         //   return Ok(new Response { Status = resp.HttpStatusCode.ToString(), Message = "Sorry! We could not verify your UserNane or password. Please try again."});
+            return Ok(new Response { Status = "Error", Message = "Sorry! We could not verify your UserNane or password. Please try again.", gg = JsonConvert.SerializeObject(resp) });
         }
 
         private DCCTokenResponse GetTokenResponse(string token, DateTimeOffset validUpto,string Name)
