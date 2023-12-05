@@ -47,7 +47,7 @@ namespace IDServer
             ClientName = "dcc",
             ClientId = "dcc.client",
              RequireClientSecret = false,
-            AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+            AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
             ClientSecrets = { new Secret("secret".Sha256()) },
             AllowedScopes = { "dcc-api" },
            // AllowOfflineAccess = false,

@@ -32,7 +32,6 @@ namespace DCC.ModelSQL.GenericRepository.Implementation
 
         public async Task<T> GetModelByIdAsync<T>(int modelId) where T : class
         {
-           
             return await _DbContext.Set<T>().FindAsync(modelId);
         }
 

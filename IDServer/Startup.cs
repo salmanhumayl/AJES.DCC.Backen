@@ -16,15 +16,20 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace IDServer
 {
+
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        IHostEnvironment _environment;
+        public Startup(IConfiguration configuration,IHostEnvironment env)
         {
+            _environment = env;
             Configuration = configuration;
         }
 
@@ -34,7 +39,10 @@ namespace IDServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          
+
+           // var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath,"rs256.pfx"),"dcc");
+
+        //    var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "idsvr3test.pfx"),"dcc");
 
             services.AddControllers();
 
@@ -46,6 +54,8 @@ namespace IDServer
             services.AddScoped<IuserManager, userManagerService>();
 
             services.AddIdentityServer()
+           // .AddSigningCredential(cert)
+           
            .AddDeveloperSigningCredential()
            .AddInMemoryIdentityResources(IdentityConfiguration.IdentityResources)
            .AddInMemoryApiResources(IdentityConfiguration.ApiResources)
@@ -102,5 +112,7 @@ namespace IDServer
                 endpoints.MapControllers();
             });
         }
+    
+    
     }
 }
