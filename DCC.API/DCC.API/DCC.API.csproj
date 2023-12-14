@@ -21,4 +21,8 @@
     <ProjectReference Include="..\..\DCC.Service\DCC.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>

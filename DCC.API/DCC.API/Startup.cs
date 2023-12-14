@@ -26,6 +26,7 @@ namespace DCC.API
             Configuration = configuration;
         }
          public IConfiguration Configuration { get; }
+
          private string AllowAll = "AllowAll";
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -38,7 +39,7 @@ namespace DCC.API
             options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddServices();
-
+           
 
             services.AddControllers();
 

@@ -6,9 +6,11 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DCC.API.Controllers
@@ -23,12 +25,15 @@ namespace DCC.API.Controllers
         private IOutgoingService _OutgoingService;
         private readonly IDocInfo _DocinfoService;
         private readonly IFileUtilityService _FileServiceUtility;
+        private IConfiguration _configuration;
 
-        public OutGoingController(IOutgoingService OutgoingService,IDocInfo DocinfoService, IFileUtilityService FileServiceUtility)
+        public OutGoingController(IOutgoingService OutgoingService,IDocInfo DocinfoService, IFileUtilityService FileServiceUtility, IConfiguration configuration)
         {
             _OutgoingService = OutgoingService;
             _DocinfoService = DocinfoService;
             _FileServiceUtility = FileServiceUtility;
+            _configuration = configuration;
+
         }
         [HttpGet("GetOutgoing")]
         public async Task<LoadResult> GetOutgoing(DataSourceLoadOptionsExtension loadOptions)
@@ -86,11 +91,18 @@ namespace DCC.API.Controllers
         [HttpPut("UpdateDocument")]
         public async Task<IActionResult> OutUpdateDocument([FromForm] DcconGoingModel model)
         {
+
+
+         
+
             if (model.document != null)
             {
+               
                 var res = await _OutgoingService.ProcessDocument(model.document, model.RefNo);
+
                 if (res != null)
                 {
+                   
                     _OutgoingService.UpdateFileName(res, model.Id);
                      model.Path = res;
                 }

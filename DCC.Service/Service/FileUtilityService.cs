@@ -7,18 +7,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using System.Net;
 
 namespace DCC.Service.Service
 {
     public class FileUtilityService : IFileUtilityService
     {
         private IConfiguration _configuration;
-        // private IWebHostEnvironment _hostEnvironment;
+        private IWebHostEnvironment _hostEnvironment;
 
 
-        public FileUtilityService(IConfiguration configuration)
+        public FileUtilityService(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _configuration = configuration;
+            _hostEnvironment = webHostEnvironment;
         }
 
 
@@ -27,15 +30,17 @@ namespace DCC.Service.Service
             throw new NotImplementedException();
         }
 
-        public async Task<string> WriteIFormFileOnNetwork(IFormFile file, string fileName)
+        public async   Task<string> WriteIFormFileOnNetwork(IFormFile file, string fileName)
         {
-          string path = _configuration["ShareFolderPath:SupportOfficeOUT"];
+           
+            string filePath = _configuration["ShareFolderPath:SupportOfficeOUT"];
 
+         //  string path = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
 
             if (file.Length > 0)
             {
                 string fileExtension = GetFileExtenison(file.FileName);
-                string filePath = Path.Combine(path, fileName + "." + fileExtension);
+                filePath = Path.Combine(filePath, fileName + "." + fileExtension);
                 try
                 {
                     using (Stream stream = new FileStream(filePath, FileMode.Create))
@@ -45,7 +50,7 @@ namespace DCC.Service.Service
                 }
                 catch (Exception ex)
                 {
-                    throw;
+                    return "X99" + ex.Message;
                 }
                 return fileName + "." + fileExtension;
                
